@@ -1,0 +1,30 @@
+name: Install SandDance Offline
+
+on: [push]
+
+jobs:
+  install-sanddance:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install npmbox
+      run: npm install -g npmbox
+
+    - name: Create Offline Package
+      run: |
+        npmbox sanddance
+        move sanddance*.npmbox ${{ github.workspace }}\sanddance.npmbox
+
+    - name: Upload Offline Package
+      uses: actions/upload-artifact@v3
+      with:
+        name: sanddance-package
+        path: ${{ github.workspace }}\sanddance.npmbox
+       
