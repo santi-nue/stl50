@@ -15,16 +15,15 @@ jobs:
         node-version: '14'
 
     - name: Install npmbox
-      run: npm install -g npmbox
+      run: npm install -g npm-bundle
 
     - name: Create Offline Package
       run: |
-        npmbox sanddance
-        move sanddance*.npmbox ${{ github.workspace }}\sanddance.npmbox
-
+        npm-bundle pack sanddance
+        move sanddance*.tgz ${{ github.workspace }}\sanddance.tgz
+        
     - name: Upload Offline Package
       uses: actions/upload-artifact@v3
       with:
         name: sanddance-package
-        path: ${{ github.workspace }}\sanddance.npmbox
-       
+        path: ${{ github.workspace }}\sanddance.tgz
